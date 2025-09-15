@@ -50,8 +50,8 @@
                                 </nav>
                             </div> --}}
                             <div class="sb-sidenav-menu-heading">Módulos</div>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            <a class="nav-link" href="{{route('categorias.index')}}">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-tag"></i></div>
                                 Categorías
                             </a>
                             <a class="nav-link" href="#">

@@ -1,11 +1,8 @@
 @extends('template')
-
 @section('title','Panel')
-
 @push('css')
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" rel="stylesheet" />
 @endpush
-
 @section('content')
 <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
