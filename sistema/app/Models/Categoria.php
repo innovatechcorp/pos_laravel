@@ -13,5 +13,8 @@ class Categoria extends Model
         return $this->belongsToMany(Producto::class)->withTimestamps();
     }
 
-    protected $fillable=['caracteristicas_id'];
+    public function caracteristica(){
+        return $this->belongsTo(Caracteristica::class);
+    }
+    protected $fillable=['caracteristica_id'];
 }

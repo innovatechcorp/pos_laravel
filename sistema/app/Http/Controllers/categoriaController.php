@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\Caracteristica;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoriaRequest;
+use App\Http\Requests\UpdateCategoriaRequest;
 class categoriaController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class categoriaController extends Controller
     public function index()
     {
         //
-        return view('categoria.index');
+        $categorias = Categoria::with('caracteristica')->get();
+        return view('categoria.index',['categorias'=>$categorias]);
     }
 
     /**
@@ -56,17 +59,21 @@ class categoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Categoria $categoria)
     {
         //
+        return view('categoria.edit',['categoria'=>$categoria]);
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
         //
+       Caracteristica::where('id',$categoria->caracteristica->id)->update($request->validated());
+       return redirect()->route('categorias.index')->with('success','Categoria editada');
     }
 
     /**
