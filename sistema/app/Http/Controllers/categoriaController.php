@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Caracteristica;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\StoreCategoriaRequest;
 class categoriaController extends Controller
 {
     /**
@@ -21,14 +22,27 @@ class categoriaController extends Controller
     public function create()
     {
         //
+        return view('categoria.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoriaRequest $request)
     {
-        //
+         //dd($request);
+        try{
+            DB::beginTransaction();
+            $caracteristica = Caracteristica::create($request->validated());
+            $caracteristica->categoria()->create([
+                'caracteristica_id'=> $caracteristica->id
+            ]);
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+
+        return redirect()->route('categorias.index')->with('success','categoria registrada');
     }
 
     /**

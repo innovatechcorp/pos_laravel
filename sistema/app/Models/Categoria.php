@@ -12,4 +12,6 @@ class Categoria extends Model
     public function productos(){
         return $this->belongsToMany(Producto::class)->withTimestamps();
     }
+
+    protected $fillable=['caracteristicas_id'];
 }
