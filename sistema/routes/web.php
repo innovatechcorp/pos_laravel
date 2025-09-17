@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\MarcaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,10 @@ Route::get('/', function () {
 Route::view('/panel','panel.index')->name('panel');
 
 
-
 Route::resource('categorias',categoriaController::class);
+
+// Route::view('/marcas','marca.index');
+Route::resource('marcas',marcaController::class);
 
 Route::get('/login', function () {
     return view('auth.login');
