@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Caracteristica;
+use App\Models\Marca;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreMarcaRequest;
 
 class marcaController extends Controller
 {
@@ -21,14 +24,30 @@ class marcaController extends Controller
     public function create()
     {
         //
+        return view('marca.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMarcaRequest $request)
     {
         //
+        //  dd($request);
+        try{
+       DB::beginTransaction();
+            $caracteristica = Caracteristica::create($request->validated());
+            $caracteristica->marca()->create([
+                'caracteristica_id'=> $caracteristica->id
+            ]);
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        
+        return redirect()->route('marcas.index')->with('success','Marca Registrada');
+            
+        
     }
 
     /**

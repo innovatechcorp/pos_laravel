@@ -12,4 +12,6 @@ class Marca extends Model
     public function productos(){
         return $this->HasMany(Producto::class);
     }
+protected $fillable=['caracteristica_id'];
+    
 }
