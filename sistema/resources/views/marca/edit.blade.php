@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-12 text-center">
                                             <button type="submit" class="btn btn-primary">Actualizar</button>
-                                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                                            <button type="reset" class="btn btn-secondary">Reiniciar</button>
                                     </div>
                                 </div>
                             </form>
