@@ -72,7 +72,7 @@ class categoriaController extends Controller
     public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
         //
-       Caracteristica::where('id',$categoria->caracteristica->id)->update($request->validated());
+      Caracteristica::where('id',$categoria->caracteristica->id)->update($request->validated());
        return redirect()->route('categorias.index')->with('success','Categoria editada');
     }
 

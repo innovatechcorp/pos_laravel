@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('caracteristicas_id')->unique()->constrained('caracteristicas')->onDelete('cascade');
             $table->timestamps();
+            
         });
     }
 

@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title','Marca')
+@section('title','marca')
 
 @push('css')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -8,76 +8,66 @@
 @endpush
 
 @section('content')
-@if(session('success'))
-<script>
-    const Toast = Swal.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 1500,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  }
-});
-Toast.fire({
-  icon: "success",
-  title: "Marca registrada"
-});
-</script>
+@if (session('success'))
+    <script> // script para que slaga la alerta 
+        let message = "{{ session('success')}}";
+        const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+            }
+            });
+        Toast.fire({
+            icon: "success",
+            title: message
+            });
+    </script>
 @endif
 <div class="container-fluid px-4">
-                        <h1 class="mt-4 text-center">Marcas</h1>
+                        <h1 class="mt-4 text-center">Marca</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="{{route('panel')}}">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('panel')}}">inicio</a></li>
                             <li class="breadcrumb-item active">Marcas</li>
+
                         </ol>
-                        <div class="mb-4">
-                        <a href="{{route('marcas.create')}}">
-                            <button class="btn btn-primary">Añadir Marca</button>
-                        </a>
-                        </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 Marcas
                             </div>
                             <div class="card-body">
-                                <table id="datatablesSimple">
+                                <table id="datatablesSimple" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>Nombre</th>
+                                            <th>Descripcion</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ( $marcas as $marca )
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
+                                            <td>{{$marca->caracteristica->nombre}}</td>
+                                            <td>{{$marca->caracteristica->descripcion}}</td>
+                                            <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <form action="{{route('marcas.edit',['marca'=>$marca])}}">
+                                            <button type="submit" class="btn btn-warning">Editar</button>
+                                            </form>
+                                            <button type="button" class="btn btn-success">Eliminar</button>
+                                            </div></td>
                                         </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
+                                            
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-</div>
-
+                    </div>
 @endsection
 
 @push('js')

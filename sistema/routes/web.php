@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,13 +20,15 @@ Route::get('/', function () {
     return view('template');
 });
 
+
+
 Route::view('/panel','panel.index')->name('panel');
+
+Route::resource('marcas',marcaController::class);
 
 
 Route::resource('categorias',categoriaController::class);
 
-// Route::view('/marcas','marca.index');
-Route::resource('marcas',marcaController::class);
 
 Route::get('/login', function () {
     return view('auth.login');

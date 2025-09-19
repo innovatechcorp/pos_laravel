@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
-use App\Models\Caracteristica;
-use App\Models\Marca;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreMarcaRequest;
+use App\Http\Requests\UpdateMarcaRequest;
 
-class marcaController extends Controller
+use App\Models\Caracteristica;
+use App\Models\Marca;
+
+class MarcaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +17,9 @@ class marcaController extends Controller
     public function index()
     {
         //
-        return view('marca.index');
+        
+        $marcas = Marca::with('caracteristica')->get();
+        return view('marca.index',['marcas'=>$marcas]);
     }
 
     /**
@@ -33,21 +37,18 @@ class marcaController extends Controller
     public function store(StoreMarcaRequest $request)
     {
         //
-        //  dd($request);
+        
         try{
-       DB::beginTransaction();
+            DB::beginTransaction();
             $caracteristica = Caracteristica::create($request->validated());
             $caracteristica->marca()->create([
-                'caracteristica_id'=> $caracteristica->id
+                'caracteristica_id'=>$caracteristica->id
             ]);
             DB::commit();
         }catch(Exception $e){
-            DB::rollBack();
+            DB::rollback();
         }
-        
-        return redirect()->route('marcas.index')->with('success','Marca Registrada');
-            
-        
+        return redirect()->route('marcas.index')->with('success','Marca registrada');
     }
 
     /**
@@ -61,17 +62,21 @@ class marcaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Marca $marca)
     {
         //
+        return view('marca.edit',['marca'=>$marca]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateMarcaRequest $request, Marca $marca)
     {
         //
+         Caracteristica::where('id',$marca->caracteristica->id)->update($request->validated());
+       return redirect()->route('marcas.index')->with('success','Marca editada');
+        
     }
 
     /**

@@ -10,8 +10,10 @@ class Marca extends Model
     use HasFactory;
 
     public function productos(){
-        return $this->HasMany(Producto::class);
+        return $this->belongsToMany(Producto::class);
     }
-protected $fillable=['caracteristica_id'];
-    
+    public function caracteristica(){
+        return $this->belongsTo(Caracteristica::class);
+    }
+    protected $fillable=['caracteristica_id'];
 }
