@@ -59,6 +59,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Marcas
                             </a>
+
+                            <a class="nav-link" href="{{route('presentaciones.index')}}">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-minimize"></i></div>
+                                Presesentaciones
+                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

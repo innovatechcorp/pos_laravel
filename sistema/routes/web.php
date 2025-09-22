@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
-
+use App\Http\Controllers\PresentacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +19,11 @@ use App\Http\Controllers\MarcaController;
 Route::get('/', function () {
     return view('template');
 });
+// Route::get('/presentaciones', function () {
+//     return view('presentacion.index');
+// });
+
+Route::resource('presentaciones',presentacionController::class);
 
 
 
