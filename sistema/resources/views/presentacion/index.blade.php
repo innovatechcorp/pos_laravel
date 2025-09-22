@@ -62,7 +62,10 @@
                                            {{$presentacion->caracteristica->descripcion}}
                                         </td>
                                        <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <button type="button" class="btn btn-warning">Editar</button>
+                                        <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                   <form action="{{route('presentaciones.edit',['presentacione'=>$presentacion])}}">
+                                                        <button type="submit" class="btn btn-warning">Editar</button>
+                                                    </form>
                                         <button type="button" class="btn btn-danger">Eliminar</button>
 </div></td>
                                       </tr>

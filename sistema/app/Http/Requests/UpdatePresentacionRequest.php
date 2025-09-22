@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateMarcaRequest extends FormRequest
+class UpdatePresentacionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,9 +21,9 @@ class UpdateMarcaRequest extends FormRequest
      */
     public function rules(): array
     {
-       
+        $presentacion = $this->route('presentacione');
+        $caracteristicaId = $presentacion->caracteristica->id;
         return [
-            //
             'nombre'=>'required|max:60|unique:caracteristicas,nombre,'.$caracteristicaId,
             'descripcion'=>'nullable|max:255'
         ];
