@@ -41,7 +41,7 @@
     <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                Presentaciones
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple" class="table table-striped">
@@ -49,6 +49,7 @@
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Descripcion</th>
+                                            <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -61,14 +62,49 @@
                                         <td>
                                            {{$presentacion->caracteristica->descripcion}}
                                         </td>
+                                        <td>
+                                            @if ($presentacion->caracteristica->estado==1)
+                                                <span class="fw-bolder p-1 rounded bg-success text-white">Activo</span>
+                                            @else
+                                                <span class="fw-bolder p-1 rounded bg-danger text-white">Eliminado</span>
+                                            @endif
+                                        </td>
+
                                        <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                         <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                            
                                                    <form action="{{route('presentaciones.edit',['presentacione'=>$presentacion])}}">
                                                         <button type="submit" class="btn btn-warning">Editar</button>
                                                     </form>
-                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                                    @if ($presentacion->caracteristica->estado==1)
+                                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$presentacion->id}}">Eliminar</button>
+                                                    @else
+                                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$presentacion->id}}">Restaurar</button>
+                                                    @endif
 </div></td>
                                       </tr>
+                                      <!-- Modal -->
+<div class="modal fade" id="confirmModal-{{$presentacion->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{$presentacion->caracteristica->estado==1 ? '¿Seguro  que quieres eliminar esta presentación?' : 'Seguro  que quieres restaurar esta presentación?' }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <form action="{{route('presentaciones.destroy',['presentacione'=>$presentacion->id])}}" method="POST">
+            @method('DELETE')
+            @csrf
+        <button type="submit" class="btn btn-danger">Confirmar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
                                        @endforeach
                                     </tbody>
                                 </table>

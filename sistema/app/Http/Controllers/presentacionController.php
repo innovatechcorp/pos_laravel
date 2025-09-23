@@ -18,7 +18,7 @@ class presentacionController extends Controller
     {
         //
         
-       $presentaciones = Presentacione::with('caracteristica')->get();
+       $presentaciones = Presentacione::with('caracteristica')->latest()->get();
      
          return view('presentacion.index',['presentaciones'=>$presentaciones]);
     }
@@ -89,5 +89,23 @@ class presentacionController extends Controller
     public function destroy(string $id)
     {
         //
+         $message="";
+        $presentacion = Presentacione::find($id);
+       if($presentacion->caracteristica->estado==1){
+         Caracteristica::where('id',$presentacion->caracteristica->id)
+        ->update([
+            'estado'=>0
+        ]);
+        $message = 'Presentacion Eliminada';
+       }else{
+         Caracteristica::where('id',$presentacion->caracteristica->id)
+        ->update([
+            'estado'=>1
+        ]);
+        $message = 'Presentacion Restaurada';
+       }
+
+        return redirect()->route('presentaciones.index')->with('success',$message);
     }
-}
+    }
+
