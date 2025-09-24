@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,7 +28,8 @@ class Producto extends Model
     public function hanbleUploadImage($image){
         $file =$image;
         $name = time() . $file->getClientOriginalName();
-        $file->move(public_path().'/img/productos/',$name);
+        // $file->move(public_path().'/img/productos/',$name);
+        Storage::putFileAs('/public/productos/',$file,$name,'public');
 
         return $name;
     }
