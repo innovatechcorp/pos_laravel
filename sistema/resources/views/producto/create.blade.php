@@ -23,7 +23,7 @@
     </ol>
 
     <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-        <form action="{{route('productos.store')}}" method="post">
+        <form action="{{route('productos.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row g-3">
                 <!--Codigo-->
@@ -59,7 +59,7 @@
                 <!--Imagen-->
                 <div class="col-md-6 mb-2">
                     <label for="img_path">Imagen</label>
-                    <input type="file" name="img_path" id="img_path" class="form-control" value="{{old('img_path')}}" accept="Image/*">
+                    <input type="file" name="img_path" id="img_path" class="form-control" accept="Image/*">
                     @error('img_path')
                     <small class="text-danger">{{'*'.$message}}</small>
                     @enderror
@@ -68,7 +68,7 @@
                     <label for="marca_id">Marca</label>
                     <select data-live-search="true" name="marca_id" id="marca_id" class="form-control selectpicker show-tick" title="Seleccione una marca" data-size="4">
                         @foreach ($marcas as $item)
-                            <option value="{{$item->id}}">{{$item->caracteristica->nombre}}</option>
+                            <option value="{{$item->id}}" {{old('marca_id')==$item->id ? 'selected' : ''}}>{{$item->nombre}}</option>
                         @endforeach
                     </select>
                     @error('marca_id')
@@ -77,24 +77,24 @@
                 </div>
 
                 <div class="col-md-6 mb-2">
-                    <label for="presentaciones_id">Presentaciones</label>
-                    <select name="presentaciones_id" id="presentaciones_id" class="form-control selectpicker show-tick">
+                    <label for="presentacione_id">Presentaciones</label>
+                    <select title="Seleccione una presentaciones" name="presentacione_id" id="presentacione_id" class="form-control selectpicker show-tick">
                         @foreach ($presentaciones as $item)
-                            <option value="{{$item->id}}">{{$item->caracteristica->nombre}}</option>
+                            <option value="{{$item->id}}" {{old('presentacione_id')==$item->id ? 'selected' : ''}}>{{$item->nombre}}</option>
                         @endforeach
                     </select>
-                    @error('presentaciones_id')
+                    @error('presentacione_id')
                     <small class="text-danger">{{'*'.$message}}</small>
                     @enderror
                 </div>
                 <div class="col-md-6 mb-2">
-                    <label for="categorias_id">Categorias</label>
-                    <select name="categorias[]" id="categorias" class="form-control selectpicker show-tick" multiple>
+                    <label for="categorias">Categorias</label>
+                    <select title="Seleccione una categoria" name="categorias[]" id="categoria_id" class="form-control selectpicker show-tick" multiple>
                         @foreach ($categorias as $item)
-                            <option value="{{$item->id}}">{{$item->caracteristica->nombre}}</option>
+                            <option value="{{$item->id}}" {{in_array($item->id,old('categorias',[])) ? 'selected' : ''}}>{{$item->nombre}}</option>
                         @endforeach
                     </select>
-                    @error('categorias_id')
+                    @error('categorias')
                     <small class="text-danger">{{'*'.$message}}</small>
                     @enderror
                 </div>

@@ -24,4 +24,12 @@ class Producto extends Model
     public function presentacione(){
         return $this->belongsToMany(Presentacione::class);
     }
+   protected $fillable =['codigo','nombre','descripcion','fecha_vencimiento','marca_id','presentacione_id','img_path'];
+    public function hanbleUploadImage($image){
+        $file =$image;
+        $name = time() . $file->getClientOriginalName();
+        $file->move(public_path().'/img/productos/',$name);
+
+        return $name;
+    }
 }
