@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PresentacionController;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,17 +23,14 @@ Route::get('/', function () {
 // Route::get('/presentaciones', function () {
 //     return view('presentacion.index');
 // });
-
-Route::resource('presentaciones',presentacionController::class);
-
-
+Route::resources([
+    'categorias'=>categoriaController::class,
+    'marcas'=>marcaController::class,
+    'presentaciones'=>presentacionController::class,
+    'productos'=>productoController::class
+]);
 
 Route::view('/panel','panel.index')->name('panel');
-
-Route::resource('marcas',marcaController::class);
-
-
-Route::resource('categorias',categoriaController::class);
 
 
 Route::get('/login', function () {
