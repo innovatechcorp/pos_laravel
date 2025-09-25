@@ -85,7 +85,12 @@
                             <button type="submit" class="btn btn-warning">Editar</button>
                             </form>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#verModal-{{$item->id}}">Ver</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
+                            @if ($item->estado==1)
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
+                            @else
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
+                            @endif
+                            
                             </div>
                         </td>
                     </tr>
@@ -124,6 +129,29 @@
                     </div>
                 </div>
                 </div>
+                
+                                                   <!-- Modal -->
+<div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{$item->estado==1 ? '¿Seguro  que quieres eliminar este producto?' : 'Seguro  que quieres restaurar este producto?' }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <form action="{{route('productos.destroy',['producto'=>$item->id])}}" method="POST">
+            @method('DELETE')
+            @csrf
+        <button type="submit" class="btn btn-danger">Confirmar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
                 @endforeach
             </tbody>
         </table>
