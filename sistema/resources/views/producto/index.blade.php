@@ -81,7 +81,9 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-warning">Editar</button>
+                                <form action="{{route('productos.edit',['producto'=>$item])}}" method="get">
+                            <button type="submit" class="btn btn-warning">Editar</button>
+                            </form>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#verModal-{{$item->id}}">Ver</button>
                             <button type="button" class="btn btn-danger">Eliminar</button>
                             </div>
