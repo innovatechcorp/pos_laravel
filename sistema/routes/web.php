@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PresentacionController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ClienteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,9 @@ Route::resources([
     'categorias'=>categoriaController::class,
     'marcas'=>marcaController::class,
     'presentaciones'=>presentacionController::class,
-    'productos'=>productoController::class
+    'productos'=>productoController::class,
+    'clientes'=>clienteController::class
+
 ]);
 
 Route::view('/panel','panel.index')->name('panel');
