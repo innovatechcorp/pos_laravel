@@ -68,21 +68,43 @@
                                         @else
                                              <span class="badge bg-danger d-inline text-white">Elimado</span>
                                         @endif
-                                            </td>
-                                            <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                    <form action="{{route('clientes.edit',['cliente'=>$item])}}" method="GET">
-                                                        <button type="submit" class="btn btn-warning">Editar</button>
-                                                    </form>
-                                                    @if ($item->persona->estado==1)
-                                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">Eliminar</button>
-                                                    @else
-                                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal">Restaurar</button>
-                                                    @endif
-                                                
-                                                
-                                                </div>
-                                            </td>
+                    </td>
+                    <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <form action="{{route('clientes.edit',['cliente'=>$item])}}" method="GET">
+                                <button type="submit" class="btn btn-warning">Editar</button>
+                            </form>
+                            @if ($item->persona->estado==1)
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
+                            @else
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
+                            @endif
+                        
+                        
+                        </div>
+                    </td>
                                         </tr>
+                                                                                           <!-- Modal -->
+<div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{$item->persona->estado==1 ? '¿Seguro  que quieres eliminar este cliente?' : 'Seguro  que quieres restaurar este cliente?' }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <form action="{{route('clientes.destroy',['cliente'=>$item->persona->id])}}" method="POST">
+            @method('DELETE')
+            @csrf
+        <button type="submit" class="btn btn-danger">Confirmar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
                                     @endforeach
                                    </tbody>
                                 </table>
