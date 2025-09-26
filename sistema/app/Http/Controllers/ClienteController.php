@@ -6,6 +6,7 @@ use App\Models\Persona;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePersonaRequest;
+use App\Http\Requests\UpdateClienteRequest;
 use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
@@ -61,18 +62,31 @@ class ClienteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Cliente $cliente)
     {
         //
+        $cliente->load('persona.documento');
+        $documentos= Documento::all();
+        return view('clientes.edit',compact('cliente','documentos'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateClienteRequest $request, Cliente $cliente)
     {
         //
+        try{
+            DB::beginTransaction();
+            Persona::where('id',$cliente->persona->id)->update($request->validated());
+            
+            DB::commit();
+        }catch(Exception $e){
+        DB::rollBack();
+        
     }
+    return redirect()->route('clientes.index')->with('success','Cliente');
+}
 
     /**
      * Remove the specified resource from storage.
