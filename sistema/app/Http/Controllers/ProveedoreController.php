@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\Proveedore;
+use App\Models\Documento;
+use App\Models\Persona;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePersonaRequest;
+use Illuminate\Support\Facades\DB;
 
 class ProveedoreController extends Controller
 {
@@ -12,7 +16,8 @@ class ProveedoreController extends Controller
     public function index()
     {
         //
-        return view('proveedore.index');
+        $proveedores= Proveedore::with('persona.documento')->get();
+        return view('proveedore.index',compact('proveedores'));
     }
 
     /**
@@ -21,14 +26,27 @@ class ProveedoreController extends Controller
     public function create()
     {
         //
+        $documentos=Documento::all();
+        return view('proveedore.create',compact('documentos'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePersonaRequest $request)
     {
         //
+        try{
+            DB::beginTransaction();
+            $persona = Persona::create($request->validated());
+            $persona->proveedore()->create([
+                'persona_id'=>$persona->id
+            ]);
+            DB::commit();
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route('proveedores.index')->with('success','Proveedor registrado');
     }
 
     /**

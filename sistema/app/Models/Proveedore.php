@@ -16,4 +16,5 @@ class Proveedore extends Model
     public function compras(){
         return $this->hasMany(Compras::class);
     }
+     protected $fillable = ['personas_id'];
 }
