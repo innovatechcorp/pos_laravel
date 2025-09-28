@@ -6,6 +6,8 @@ use App\Models\Documento;
 use App\Models\Persona;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePersonaRequest;
+use App\Http\Requests\UpdatePersonaRequest;
+use App\Http\Requests\UpdateProveedoreRequest;
 use Illuminate\Support\Facades\DB;
 
 class ProveedoreController extends Controller
@@ -60,24 +62,57 @@ class ProveedoreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Proveedore $proveedore)
     {
         //
+        $proveedore->load('persona.documento');
+        $documentos = $documentos= Documento::all();
+        return view('proveedore.edit',compact('proveedore','documentos'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProveedoreRequest $request, Proveedore $proveedore)
     {
-        //
+    
+        try{
+            DB::beginTransaction();
+            Persona::where('id',$proveedore->persona->id)->update($request->validated());
+            
+            DB::commit();
+        }catch(Exception $e){
+        DB::rollBack();
+        
     }
+    return redirect()->route('proveedores.index')->with('success','Proveedor Editado');
+}
+      
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
+        {
         //
+          $message="";
+        $persona = Persona::find($id);
+       if($persona->estado==1){
+         Persona::where('id',$persona->id)
+        ->update([
+            'estado'=>0
+        ]);
+        $message = 'Proveedor Eliminado';
+       }else{
+         Persona::where('id',$persona->id)
+        ->update([
+            'estado'=>1
+        ]);
+        $message = 'Proveedor Restaurado';
+       }
+
+        return redirect()->route('proveedores.index')->with('success',$message);
     }
-}
+    }
+

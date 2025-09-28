@@ -48,8 +48,9 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Direccion</th>
-                                        <th>Tipo_documento</th>
-                                        <th>Nro Documento</th>
+                                        <th>Documento</th>
+                                        <th>Numero Documento</th>
+                                        <th>Tipo Proveedor</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -61,7 +62,7 @@
                                             <td>{{$item->persona->direccion}}</td>
                                             <td>{{$item->persona->documento->tipo_documento}}</td>
                                             <td>{{$item->persona->numero_documento}}</td>
-                                            <td>{{$item->persona->tipo_persona}}</td>
+                                             <td>{{$item->persona->tipo_persona}}</td>
                                             <td>
                                         @if ($item->persona->estado==1)
                                             <span class="badge bg-success d-inline text-white">Activo</span>
@@ -69,6 +70,8 @@
                                              <span class="badge bg-danger d-inline text-white">Elimado</span>
                                         @endif
                     </td>
+                                           
+                                            
                     <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
                             <form action="{{route('proveedores.edit',['proveedore'=>$item])}}" method="GET">
                                 <button type="submit" class="btn btn-warning">Editar</button>
@@ -92,11 +95,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {{$item->persona->estado==1 ? '¿Seguro  que quieres eliminar este cliente?' : 'Seguro  que quieres restaurar este cliente?' }}
+        {{$item->persona->estado==1 ? '¿Seguro  que quieres eliminar este proveedor?' : 'Seguro  que quieres restaurar este proveedor?' }}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <form action="{{route('clientes.destroy',['cliente'=>$item->persona->id])}}" method="POST">
+        <form action="{{route('proveedores.destroy',['proveedore'=>$item->persona->id])}}" method="POST">
             @method('DELETE')
             @csrf
         <button type="submit" class="btn btn-danger">Confirmar</button>

@@ -50,6 +50,7 @@
                                         <th>Direccion</th>
                                         <th>Tipo_documento</th>
                                         <th>Nro Documento</th>
+                                        <th>Tipo cliente</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -69,6 +70,7 @@
                                              <span class="badge bg-danger d-inline text-white">Elimado</span>
                                         @endif
                     </td>
+                                            
                     <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
                             <form action="{{route('clientes.edit',['cliente'=>$item])}}" method="GET">
                                 <button type="submit" class="btn btn-warning">Editar</button>
