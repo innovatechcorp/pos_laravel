@@ -7,6 +7,8 @@ use App\Http\Controllers\PresentacionController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedoreController;
+use App\Http\Controllers\compraController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +33,8 @@ Route::resources([
     'presentaciones'=>presentacionController::class,
     'productos'=>productoController::class,
     'clientes'=>clienteController::class,
-    'proveedores'=>proveedoreController::class
+    'proveedores'=>proveedoreController::class,
+    'compras'=>compraController::class,
 
 ]);
 
