@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Compra;
+use App\Models\Proveedore;
+use App\Models\Comprobante;
+use App\Models\Producto;
 
 use Illuminate\Http\Request;
 
@@ -22,6 +25,10 @@ class compraController extends Controller
     public function create()
     {
         //
+        $proveedores = Proveedore::all();
+        $comprobantes = Comprobante::all();
+        $productos = Producto::all();
+        return view('compra.create',compact('proveedores','comprobantes','productos'));
     }
 
     /**
