@@ -18,11 +18,11 @@
     <h1 class="mt-4 text-center">Crear Compra</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{route('panel')}}">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="{{route('clientes.index')}}">Compra</a></li>
+        <li class="breadcrumb-item"><a href="{{route('compras.index')}}">Compra</a></li>
         <li class="breadcrumb-item active"> Crear Compra</li>
     </ol>
 </div>
-<form action="" method="post">
+<form action="{{route('compras.store')}}" method="post">
     @csrf
     <div class="container mt-4">
         <div class="row gy-4">
@@ -81,6 +81,13 @@
                                         
                                     </thead>
                                     <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
                                         <tfoot>
                                             <tr>
                                                 <th></th>
@@ -95,7 +102,7 @@
                                             <tr>
                                                 <th></th>
                                                 <th colspan="4">Total</th>
-                                                <th><span id="total">0</span></th>
+                                                <th colspan="2"><input type="hidden" name="total" value="0" id="inputTotal"><span id="total">0</span></th>
                                             </tr>
                                         </tfoot>
                                     </tbody>
@@ -127,31 +134,50 @@
                                    <option value="{{$item->id}}">{{$item->persona->razon_social}}</option>
                                 @endforeach
                             </select>
+                            @error('proveedore_id');
+                            <small small="text-danger">{{'*'.$message}}</small>
+                            @enderror
                         </div>
                         <!--Comprobante-->
                         <div class="col-md-12 mb-2">
-                            <label for="proveedore_id" class="form-label">Comprobante:</label>
+                            <label for="comprobante_id" class="form-label">Comprobante:</label>
                             <select name="comprobante_id" id="comprobante_id" class="form-control selectpicker show-tick  title="Selecciona" >
                                 @foreach ($comprobantes as $item)
                                    <option value="{{$item->id}}">{{$item->tipo_comprobante}}</option>
                                 @endforeach
                             </select>
+                             @error('comprobante_id');
+                            <small small="text-danger">{{'*'.$message}}</small>
+                            @enderror
                         </div>
                         <!--numero comprobante-->
                         <div class="col-md-12 mb-2">
                             <label for="numero_comprobante" class="form-label">Numero Comprobante:</label>
                             <input required type="text" name="numero_comprobante" id="numero_comprobante" class="form-control">
+                            @error('numero_comprobante');
+                            <small small="text-danger">{{'*'.$message}}</small>
+                            @enderror
+                        </div>
+                        <!--Fecha-->
+                         <div class="col-md-6 mb-2">
+                            <label for="fecha" class="form-label">Fecha:</label>
+                            <input readonly type="date" name="fecha" id="fecha" class="form-control border-success" value="<?php echo date("Y-m-d")?>">
+                            <?php
+                            use Carbon\Carbon;
+                            $fecha_hora =Carbon::now()->toDateTimeString()
+                            ?>
+                            <input type="hidden" name="fecha_hora" value="{{$fecha_hora}}">
+                            
                         </div>
                         <!--Impuesto-->
                          <div class="col-md-6 mb-2">
                             <label for="impuesto" class="form-label">Impuesto (IVA):</label>
                             <input readonly type="text" name="impuesto" id="impuesto" class="form-control border-success">
+                            @error('impuesto');
+                            <small small="text-danger">{{'*'.$message}}</small>
+                            @enderror
                         </div>
-                        <!--Fecha-->
-                         <div class="col-md-6 mb-2">
-                            <label for="impuesto" class="form-label">Fecha:</label>
-                            <input readonly type="date" name="impuesto" id="impuesto" class="form-control border-success" value="<?php echo date("Y-m-d")?>">
-                        </div>
+                        
 
                         <!--Botones-->
                         <div class="col-md-12 m-2 text-center">
@@ -231,6 +257,9 @@
                     $('#sumas').html(sumas);
                     $('#iva').html(iva);
                     $('#total').html(total);
+                    $('#impuesto').val(impuesto + '%');
+                    $('#inputTotal').val(total);
+
     limpiarCampos();
                }
     function agregarProducto(){
@@ -254,10 +283,10 @@
         total = round(sumas + iva);
         let fila = '<tr id="fila'+ cont + '">' +
                     '<th>'+ (cont +1)  +'</th>' +
-                    '<td>'+ nameProducto +'</td>' +
-                    '<td>'+ cantidad +'</td>' +
-                    '<td>'+precioCompra+'</td>' +
-                    '<td>'+precioVenta+'</td>' +
+                    '<td><input type="hidden" name="arrayidproducto[]" value="'+idProducto+'">'+ nameProducto +'</td>' +
+                    '<td><input type="hidden" name="arraycantidad[]" value="'+cantidad+'" >'+ cantidad +'</td>' +
+                    '<td><input type="hidden" name="arraypreciocompra[]" value="'+precioCompra+'" >'+precioCompra+'</td>' +
+                    '<td><input type="hidden" name="arrayprecioventa[]" value="'+precioVenta+'" >'+precioVenta+'</td>' +
                     '<td>'+subTotal[cont]+'</td>' +
                     '<td><button class="btn btn-danger" type="button" onClick="eliminarProducto('+cont+')"><i class="fa-solid fa-trash"></i></button></td>' +
                     '</tr>';
@@ -270,6 +299,8 @@
                     $('#sumas').html(sumas);
                     $('#iva').html(iva);
                     $('#total').html(total);
+                    $('#impuesto').val(iva);
+                    $('#inputTotal').val(total);
         }else{
             showModal('precio de compra incorrecto');
         }
@@ -295,6 +326,8 @@
                     $('#sumas').html(sumas);
                     $('#iva').html(iva);
                     $('#total').html(total);
+                    $('#inputTotal').val(total);
+                    
         //eliminar la fila de la tabla
         $('#fila'+indice).remove();
          limpiarCampos();

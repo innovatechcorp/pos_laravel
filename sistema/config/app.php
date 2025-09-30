@@ -69,8 +69,8 @@ return [
     |
     */
 
-    //'timezone' => 'UTC',
-    'timezone'=>'America/Caracas',
+    'timezone' => 'UTC',
+    // 'timezone'=>'America/Caracas',
 
     /*
     |--------------------------------------------------------------------------
