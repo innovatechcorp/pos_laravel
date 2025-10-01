@@ -90,9 +90,12 @@ class compraController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Compra $compra)
     {
         //
+        // dd($compra->productos);
+        
+        return view('compra.show',compact('compra'));
     }
 
     /**

@@ -29,64 +29,65 @@
     </script>
 @endif
 <div class="container-fluid px-4">
-                        <h1 class="mt-4 text-center">Compra</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="{{route('panel')}}">inicio</a></li>
-                            <li class="breadcrumb-item active">Compra</li>
+            <h1 class="mt-4 text-center">Compra</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="{{route('panel')}}">inicio</a></li>
+                <li class="breadcrumb-item active">Compra</li>
 
-                        </ol>
-                        <div class="mb-4">
-    <a href="{{route('compras.create')}}"><button type="button" class="btn btn-primary">Añadir nuevo registro</button> </a>
-    </div>
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                Compra
-                            </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Comprobante</th>
-                                            <th>Proveedor</th>
-                                            <th>Fecha y hora</th>
-                                            <th>Total</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                    @foreach ($compras as $item)
-                                        <tr>
-                                            <td>
-                                            <p class="fw-semibold mb-1">{{$item->comprobante->tipo_comprobante}}</p>
-                                            <p class="text-muted mb-0">{{$item->numero_comprobante}}</p>
-                                            </td>
-                                            
-                                            <td>
-                                            <p class="fw-semibold mb-1">{{ucfirst($item->proveedore->persona->tipo_persona)}}</p>
-                                                <p class="text-muted mb-0">{{$item->proveedore->persona->razon_social}}</p>
-                                        </td>
+            </ol>
+            <div class="mb-4">
+<a href="{{route('compras.create')}}"><button type="button" class="btn btn-primary">Añadir nuevo registro</button> </a>
+</div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Compra
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Comprobante</th>
+                                <th>Proveedor</th>
+                                <th>Fecha y hora</th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        @foreach ($compras as $item)
+                            <tr>
+                                <td>
+                                <p class="fw-semibold mb-1">{{$item->comprobante->tipo_comprobante}}</p>
+                                <p class="text-muted mb-0">{{$item->numero_comprobante}}</p>
+                                </td>
+                                
+                                <td>
+                                <p class="fw-semibold mb-1">{{ucfirst($item->proveedore->persona->tipo_persona)}}</p>
+                                    <p class="text-muted mb-0">{{$item->proveedore->persona->razon_social}}</p>
+                            </td>
 
-                                        <td>
-                                        {{
-                                            \Carbon\Carbon::parse($item->fecha_hora)->format('d-m-Y').' '.
-                                            \Carbon\Carbon::parse($item->fecha_hora)->format('H:i')
-                                        }}
-                                        </td>
-                                        <td>
-                                            {{$item->total}}
-                                        </td>
-                                        
-                                        <td>
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <button type="button" class="btn btn-danger">Left</button>
-                                            <button type="button" class="btn btn-warning">Middle</button>
-                                            <button type="button" class="btn btn-success">Right</button>
-                                            </div>
-                                        </td>
-                                        </tr>
-                                        
-                                    @endforeach
+                            <td>
+                            {{
+                                \Carbon\Carbon::parse($item->fecha_hora)->format('d-m-Y').' '.
+                                \Carbon\Carbon::parse($item->fecha_hora)->format('H:i')
+                            }}
+                            </td>
+                            <td>
+                                {{$item->total}}
+                            </td>
+                            
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <form action="{{route('compras.show',['compra'=>$item])}}" method="get">
+                                <button type="submit" class="btn btn-success">Ver</button>
+                                </form>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </td>
+                            </tr>
+                            
+                        @endforeach
                                 </tbody>
                                 </table>
                             </div>
