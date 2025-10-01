@@ -111,7 +111,7 @@
                         </div>
                         <!--Boton para cancelar la compra-->
                         <div class="col-md-12 mb-2">
-                            <button type="button"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancelar compra</button>
+                            <button  id="cancelar" type="button"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancelar compra</button>
                         </div>
                     </div>
                     </div>
@@ -181,7 +181,7 @@
 
                         <!--Botones-->
                         <div class="col-md-12 m-2 text-center">
-                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <button id="guardar" type="submit" class="btn btn-success">Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -262,6 +262,16 @@
 
     limpiarCampos();
                }
+        function disableButtons(){
+            if(total == 0){
+                $('#guardar').hide();
+                $('#cancelar').hide();
+            }else{
+                $('#guardar').show();
+                $('#cancelar').show();
+            }
+        }
+
     function agregarProducto(){
         let idProducto = $('#producto_id').val();
         let nameProducto = ($('#producto_id option:selected').text().split(' ')[1]);

@@ -25,22 +25,22 @@
 <form action="{{route('ventas.store')}}" method="post">
     @csrf
     <div class="container mt-4">
-        <div class="row gy-4">
-             <!--Compra producto-->
-            <div class="col-md-8">
-                <div class="text-white bg-primary p-1 text-center">
-                    Detalles de la venta
-                </div>
-                <!-- Producto-->
-                <div class="p-3 border border-3 border-primary">
-                    <div class="row">
-                        <div class="col-md-12 mb-2">
-                            <select name="producto_id" id="producto_id" class="form-control selectpicker" data-live-search="true" title="Busque un producto aqui">
-                                @foreach ($productos as $item)
-                                    <option value="{{$item->id}}">{{$item->codigo.' '.$item->nombre}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+<div class="row gy-4">
+        <!--Compra producto-->
+    <div class="col-md-8">
+        <div class="text-white bg-primary p-1 text-center">
+            Detalles de la venta
+        </div>
+        <!-- Producto-->
+     <div class="p-3 border border-3 border-primary">
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <select name="producto_id" id="producto_id" class="form-control selectpicker" data-live-search="true" title="Busque un producto aqui">
+                    @foreach ($productos as $item)
+                        <option value="{{$item->id}}-{{$item->stock}}-{{$item->precio_venta}}">{{$item->codigo.' '.$item->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
                     
                     <!--stock-->
                     {{-- <div class="col-md-6">
@@ -61,7 +61,7 @@
                             <div class="row">
                                 <label for="stock" class="form-label col-sm-4">En stock</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control">
+                        <input disabled id="stock" type="text" class="form-control">
                             </div>
                         
                         </div>
@@ -79,7 +79,7 @@
                      <!--Precio de venta-->
                         <div class="col-md-4 mb-2">
                             <label for="precio_venta" class="form-label">Precio de venta:</label>
-                            <input type="number" name="precio_venta" id="precio_venta" class="form-control" step="0.1">
+                            <input disabled type="number" name="precio_venta" id="precio_venta" class="form-control" step="0.1">
 
                         </div>
                         <!--descuento-->
@@ -136,8 +136,8 @@
                             </div>
                         </div>
                         <!--Boton para cancelar la venta-->
-                        <div class="col-md-12 mb-2">
-                            <button type="button"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancelar venta</button>
+                        <div  class="col-md-12 mb-2">
+                            <button   id="cancelar" type="button"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancelar venta</button>
                         </div>
                     </div>
                     </div>
@@ -207,7 +207,7 @@
 
                         <!--Botones-->
                         <div class="col-md-12 m-2 text-center">
-                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <button id="guardar" type="submit" class="btn btn-success">Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -239,4 +239,188 @@
 
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#producto_id').change(mostrarValores);
+    
+     $('#btn_agregar').click(function(){
+        agregarProducto();
+        });
+        $('#btnCancelarVenta').click(function(){
+            cancelarVenta();
+        });
+        disableButtons();
+        $('#impuesto').val(impuesto + '%');
+    });
+    
+//Variables
+let cont=0;
+let subTotal =[];
+let sumas=0;
+let iva =0;
+let total=0;
+
+//constante
+const impuesto =18;
+    function mostrarValores(){
+        let dataProducto = document.getElementById('producto_id').value.split('-');
+        $('#stock').val(dataProducto[1]);
+        $('#precio_venta').val(dataProducto[2]);
+    }
+
+    function agregarProducto(){
+        let dataProducto = document.getElementById('producto_id').value.split('-');
+         let idProducto = dataProducto[0];
+        let nameProducto = $('#producto_id option:selected').text();
+        let cantidad =$('#cantidad').val();
+        let precioVenta = $('#precio_venta').val();
+        let descuento = $('#descuento').val();
+        let stock =$('#stock').val();
+
+        if(descuento==''){
+            descuento =0;
+        }
+
+        //Validaciones
+        //1.Para que los campos no esten vacios
+        if (idProducto !='' && cantidad !='') {
+         //2. Para que los valores ingresados sea los correctos
+            if(parseInt(cantidad)>0 && (cantidad%1==0) && parseFloat(descuento) >=0){
+        //3.Para que el precio de compra sea menor al precio de venta
+        if(parseInt(cantidad) <= parseInt(stock)){
+           //Calcular valores
+        subTotal[cont]= round(cantidad * precioVenta - descuento);
+        sumas +=subTotal[cont];
+        iva =round(sumas/100 * impuesto);
+        total = round(sumas + iva);
+        let fila = '<tr id="fila'+ cont + '">' +
+                    '<th>'+ (cont +1)  +'</th>' +
+                    '<td><input type="hidden" name="arrayidproducto[]" value="'+idProducto+'">'+ nameProducto +'</td>' +
+                    '<td><input type="hidden" name="arraycantidad[]" value="'+cantidad+'" >'+ cantidad +'</td>' +
+                    '<td><input type="hidden" name="arrayprecioventa[]" value="'+precioVenta+'" >'+precioVenta+'</td>' +
+                    '<td><input type="hidden" name="arraydescuento[]" value="'+descuento+'" >'+descuento+'</td>' +
+                    
+                    '<td>'+subTotal[cont]+'</td>' +
+                    '<td><button class="btn btn-danger" type="button" onClick="eliminarProducto('+cont+')"><i class="fa-solid fa-trash"></i></button></td>' +
+                    '</tr>';
+
+                    $('#tabla_detalle').append(fila);
+                    limpiarCampos();
+                    cont++;
+                    disableButtons();
+
+                    //Mostrar los campos calculados en la tabla
+                    $('#sumas').html(sumas);
+                    $('#iva').html(iva);
+                    $('#total').html(total);
+                    $('#impuesto').val(iva);
+                    $('#inputTotal').val(total);
+        }else{
+            showModal('cantidad incorrecta');
+        }
+      
+            }else{
+                showModal('valores incorrectos');
+            }
+           
+
+        } else {
+            showModal('Le faltan campos por llenar');
+        }
+    }
+
+     function eliminarProducto(indice){
+        //calcular valores
+        sumas -= round(subTotal[indice]);
+        iva = round(sumas / 100 * impuesto);
+        total = round(sumas + iva);
+        //Mostrar los campos calculados
+                    $('#sumas').html(sumas);
+                    $('#iva').html(iva);
+                    $('#total').html(total);
+                    $('#inputTotal').val(total);
+                    
+        //eliminar la fila de la tabla
+        $('#fila'+indice).remove();
+         limpiarCampos();
+                    cont++;
+                    disableButtons();
+     }
+     function cancelarVenta(){
+        $('#tabla_detalle > tbody').empty();
+        //anadir una nueva fila a la tabla
+    let fila = '<tr>' +
+                '<th></th>' +
+               '<td></td>' +
+               '<td></td>' +
+               '<td></td>' +
+               '<td></td>' +
+               '<td></td>' +
+               '<td></td>' +
+               '</tr>';
+               $('#tabla_detalle').append(fila);
+        //Reiniciar el valor de todas las variables
+         let cont =0;
+    let subTotal=[];
+    let sumas = 0;
+    let iva = 0;
+    let total =0;
+    //Mostrar los datos calculados
+                    $('#sumas').html(sumas);
+                    $('#iva').html(iva);
+                    $('#total').html(total);
+                    $('#impuesto').val(impuesto + '%');
+                    $('#inputTotal').val(total);
+
+    limpiarCampos();
+    disableButtons();
+               }
+     function disableButtons(){
+            if(total == 0){
+                $('#guardar').hide();
+                $('#cancelar').hide();
+            }else{
+                $('#guardar').show();
+                $('#cancelar').show();
+            }
+        }
+    function limpiarCampos(){
+        let select = $('#producto_id');
+        select.selectpicker();
+        select.selectpicker('val','');
+        $('#cantidad').val('');
+        $('#precio_venta').val('');
+        $('#descuento').val('');
+         $('#stock').val('');
+    }
+    function showModal(message,icon='error'){
+    const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  }
+});
+Toast.fire({
+  icon: icon,
+  title: message
+});
+}
+    function round(num, decimales = 2) {
+    var signo = (num >= 0 ? 1 : -1);
+    num = num * signo;
+    if (decimales === 0) //con 0 decimales
+        return signo * Math.round(num);
+    // round(x * 10 ^ decimales)
+    num = num.toString().split('e');
+    num = Math.round(+(num[0] + 'e' + (num[1] ? (+num[1] + decimales) : decimales)));
+    // x * 10 ^ (-decimales)
+    num = num.toString().split('e');
+    return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
+}
+</script>
 @endpush
