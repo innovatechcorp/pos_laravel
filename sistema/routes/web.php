@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedoreController;
 use App\Http\Controllers\compraController;
+use App\Http\Controllers\ventaController;
 
 
 /*
@@ -22,7 +23,7 @@ use App\Http\Controllers\compraController;
 */
 
 Route::get('/', function () {
-    return view('template');
+    return view('/panel.index');
 });
 // Route::get('/presentaciones', function () {
 //     return view('presentacion.index');
@@ -35,6 +36,7 @@ Route::resources([
     'clientes'=>clienteController::class,
     'proveedores'=>proveedoreController::class,
     'compras'=>compraController::class,
+    'ventas'=>ventaController::class,
 
 ]);
 
