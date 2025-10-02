@@ -13,6 +13,7 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         @stack('css')
     </head>
+    @auth
     <body class="sb-nav-fixed">
         <x-navigation-header />
         <div id="layoutSidenav">
@@ -35,4 +36,10 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="{{asset('js/datatables-simple-demo.js')}}"></script> --}}
     </body>
+    @endauth
+
+    @guest
+        @include('pages.401');
+    @endguest
+    
 </html>

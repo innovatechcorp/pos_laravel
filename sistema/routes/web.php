@@ -9,6 +9,10 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedoreController;
 use App\Http\Controllers\compraController;
 use App\Http\Controllers\ventaController;
+use App\Http\Controllers\loginController;
+use App\Http\Controllers\homeController;
+use App\Http\Controllers\logoutController;
+
 
 
 /*
@@ -22,12 +26,10 @@ use App\Http\Controllers\ventaController;
 |
 */
 
-Route::get('/', function () {
-    return view('/panel.index');
-});
 // Route::get('/presentaciones', function () {
 //     return view('presentacion.index');
 // });
+Route::get('/',[homeController::class,'index'])->name('panel');
 Route::resources([
     'categorias'=>categoriaController::class,
     'marcas'=>marcaController::class,
@@ -40,12 +42,13 @@ Route::resources([
 
 ]);
 
-Route::view('/panel','panel.index')->name('panel');
+// Route::view('/panel','panel.index')->name('panel');
 
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
+Route::get('/login',[loginController::class,'index'])->name('login');
+Route::post('/login',[loginController::class,'login']);
+Route::get('/logout',[logoutController::class,'logout'])->name('logout');
+
 Route::get('/401', function () {
     return view('pages.401');
 });
