@@ -204,7 +204,8 @@
                             @enderror
                         </div>
                         
-
+                        <!--User-->
+                        <input type="hidden" name="user_id" value="1">
                         <!--Botones-->
                         <div class="col-md-12 m-2 text-center">
                             <button id="guardar" type="submit" class="btn btn-success">Guardar</button>
