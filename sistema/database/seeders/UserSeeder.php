@@ -17,18 +17,17 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         //
-        $user = User::create([
-            [
-            'name'=>'prueba',
-            'email'=>'admin@gmail.com',
-            'password'=>bcrypt('12345678')
-            ]
-        ]);
-        //Usuario administrador
-        $rol = Role::create(['name'=>'administrador']);
-        $permisos = Permission::pluck('id','id')->all();
-        $rol->syncPermissions($permisos);
-        // $user =User::find(1);
-        $user->assignRole('administrador');
+       $user = User::create([
+    // ¡SIN el array externo!
+    'name' => 'prueba',
+    'email' => 'admin@gmail.com',
+    'password' => bcrypt('password')
+]);
+
+
+$rol = Role::create(['name' => 'administrador']);
+$permisos = Permission::pluck('id', 'id')->all();
+$rol->syncPermissions($permisos);
+$user->assignRole('administrador');
     }
 }
