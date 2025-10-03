@@ -12,6 +12,8 @@ use App\Http\Controllers\ventaController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\logoutController;
+use App\Http\Controllers\roleController;
+use App\Http\Controllers\userController;
 
 
 
@@ -39,6 +41,8 @@ Route::resources([
     'proveedores'=>proveedoreController::class,
     'compras'=>compraController::class,
     'ventas'=>ventaController::class,
+    'users'=>userController::class,
+    'roles'=>roleController::class,
 
 ]);
 
