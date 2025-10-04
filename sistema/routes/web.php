@@ -14,6 +14,7 @@ use App\Http\Controllers\homeController;
 use App\Http\Controllers\logoutController;
 use App\Http\Controllers\roleController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\profileController;
 
 
 
@@ -43,6 +44,7 @@ Route::resources([
     'ventas'=>ventaController::class,
     'users'=>userController::class,
     'roles'=>roleController::class,
+    'profiles'=>profileController::class,
 
 ]);
 
