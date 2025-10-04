@@ -35,8 +35,10 @@
                             <li class="breadcrumb-item active">Proveedores</li>
                         </ol>
                         <div class="mb-4">
+                            @can('crear-proveedore')
     <a href="{{route('proveedores.create')}}"><button type="button" class="btn btn-primary">Añadir nuevo registro</button> </a>
     </div>
+    @endcan
      <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
@@ -73,15 +75,18 @@
                                            
                                             
                     <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        @can('editar-proveedore')
                             <form action="{{route('proveedores.edit',['proveedore'=>$item])}}" method="GET">
                                 <button type="submit" class="btn btn-warning">Editar</button>
                             </form>
+                            @endcan
+                            @can('eliminar-proveedore')
                             @if ($item->persona->estado==1)
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
                             @else
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
                             @endif
-                        
+                            @endcan
                         
                         </div>
                     </td>

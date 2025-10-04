@@ -36,8 +36,10 @@
 
                         </ol>
                         <div class="mb-4">
+                            @can('crear-presentacione')
     <a href="{{route('presentaciones.create')}}"><button type="button" class="btn btn-primary">Añadir nuevo registro</button> </a>
     </div>
+    @endcan
     <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
@@ -72,15 +74,18 @@
 
                                        <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                         <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            
+                                                    @can('editar-presentacione')
                                                    <form action="{{route('presentaciones.edit',['presentacione'=>$presentacion])}}">
                                                         <button type="submit" class="btn btn-warning">Editar</button>
                                                     </form>
+                                                    @endcan
+                                                    @can('eliminar-presentacione')
                                                     @if ($presentacion->caracteristica->estado==1)
                                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$presentacion->id}}">Eliminar</button>
                                                     @else
                                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$presentacion->id}}">Restaurar</button>
                                                     @endif
+                                                    @endcan
 </div></td>
                                       </tr>
                                       <!-- Modal -->

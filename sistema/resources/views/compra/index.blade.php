@@ -36,8 +36,10 @@
 
             </ol>
             <div class="mb-4">
+                @can('crear-compra')
 <a href="{{route('compras.create')}}"><button type="button" class="btn btn-primary">Añadir nuevo registro</button> </a>
 </div>
+@endcan
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
@@ -79,11 +81,15 @@
                             
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    @can('mostrar-compra')
                                     <form action="{{route('compras.show',['compra'=>$item])}}" method="get">
                                 <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
+                                @endcan
+                                @can('eliminar-compra')
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
                                 </div>
+                                @endcan
                             </td>
                             </tr>
                             <div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

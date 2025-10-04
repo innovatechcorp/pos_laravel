@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule; // ¡CLAVE: Importar esta clase!
 class roleController extends Controller
 {
+     function __construct(){
+        $this->middleware('permission:ver-role|crear-role|editar-proveedore|eliminar-role',['only'=>'index']);
+        $this->middleware('permission:crear-role',['only'=>'create','store']);
+        $this->middleware('permission:editar-role',['only'=>'edit','update']);
+        $this->middleware('permission:eliminar-role',['only'=>'destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

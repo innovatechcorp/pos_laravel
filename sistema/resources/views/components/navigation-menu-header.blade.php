@@ -49,34 +49,48 @@
                                     </div>
                                 </nav>
                             </div> --}}
+                            @can('ver-categoria')
                             <div class="sb-sidenav-menu-heading">Módulos</div>
                             <a class="nav-link" href="{{route('categorias.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-tag"></i></div>
                                 Categorías
                             </a>
-                            
+                            @endcan
+
+                            @can('ver-marca')
                             <a class="nav-link" href="{{route('marcas.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Marcas
                             </a>
+                            @endcan
+
+                            @can('ver-producto')
                             <a class="nav-link" href="{{route('productos.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-brands fa-shopify"></i></div>
                                 Productos
                             </a>
+                            @endcan
 
+                            @can('ver-presentacione')
                             <a class="nav-link" href="{{route('presentaciones.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-minimize"></i></div>
                                 Presesentaciones
                             </a>
+                            @endcan
 
+                            @can('ver-cliente')
                             <a class="nav-link" href="{{route('clientes.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                                 Clientes
                             </a>
+                            @endcan
+                            @can('ver-proveedore')
                             <a class="nav-link" href="{{route('proveedores.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-truck"></i></div>
                                 Proveedores
                             </a>
+                            @endcan
+                            @can('ver-compra')
                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCompras" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-store"></i></div>
                                 Compras
@@ -88,6 +102,8 @@
                                     <a class="nav-link" href="{{route('compras.create')}}">Crear</a>
                                 </nav>
                             </div>
+                            @endcan
+                            @can('ver-ventas')
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseVentas" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
                                 Ventas
@@ -99,15 +115,22 @@
                                     <a class="nav-link" href="{{route('ventas.create')}}">Crear</a>
                                 </nav>
                             </div>
+                            @endcan
+
+
                             <div class="sb-sidenav-menu-heading">OTROS</div>
+                            @can('ver-user')
                              <a class="nav-link" href="{{route('users.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                                 Usuarios
                             </a>
+                            @endcan
+                            @can('ver-role')
                              <a class="nav-link" href="{{route('roles.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-person-circle-plus"></i></div>
                                 Roles
                             </a>
+                            @endcan
                             
                         </div>
                     </div>

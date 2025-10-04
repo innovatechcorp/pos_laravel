@@ -36,8 +36,10 @@
 
     </ol>
     <div class="mb-4">
+        @can('crear-venta')
 <a href="{{route('ventas.create')}}"><button type="button" class="btn btn-primary">Añadir nuevo registro</button> </a>
 </div>
+@endcan
 <div class="card mb-4">
 <div class="card-header">
     <i class="fas fa-table me-1"></i>
